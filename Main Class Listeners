@@ -11,7 +11,7 @@ public class Main extends JavaPlugin{
 		plugin = this;
 		
 		PluginManager pluginmanager = Bukkit.getPluginManager();
-		pluginmanager.registerEvents(new ScoreboardAnimator(this), this);
+		pluginmanager.registerEvents(new ScoreboardAnimator(this), this); // That is the registration of the ScoreboardListener
 	}
 	
 	public static Main getPlugin(){
