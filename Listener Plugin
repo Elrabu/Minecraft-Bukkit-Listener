@@ -91,9 +91,11 @@ public class ListenerPlugin extends JavaPlugin{
 		    obj.setDisplayName("§6§l HEALTH: " + p2.getHealth());
 		    p2.setScoreboard(board);
 		    p2.sendMessage("Hallo");
-/*		    Calendar c = Calendar.getInstance();
+/*		    Calendar c = Calendar.getInstance(); 
 		    int s = c.get(10) % 5 + 5;
 		    while (s > c.get(10) % 5) {}
+		    This is just an Experiment on how to 
+		    sleep a specific time.
 */		  
 		}
 	}
