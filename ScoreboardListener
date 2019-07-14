@@ -1,0 +1,68 @@
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+
+public class ScoreboardAnimator implements Listener{
+	private Main plugin;
+	private final String ANIMATION_TITLE = "§6MARELIGAMES";
+	private final long ANIMATION_SPEED = 10;
+	private char[]letters;
+	private int animationState;
+	private String currentTitle;
+	
+	public ScoreboardAnimator(Main plugin) {
+		this.plugin = plugin;
+		letters = ANIMATION_TITLE.toCharArray();
+		animationState = 0;
+		currentTitle = "";
+		animate();
+	}
+
+	public void setup(Player player) {
+		Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+		Objective objective = scoreboard.registerNewObjective("abcd", "abcd");
+		objective.setDisplayName(currentTitle);
+		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+		objective.getScore("").setScore(6);
+		objective.getScore("§lWelcome " + player.getName()).setScore(5);
+		objective.getScore("§lto Mareligames!").setScore(4);
+		objective.getScore("§lHave fun with ").setScore(3);
+		objective.getScore("§lthe awesome Games!").setScore(2);
+		objective.getScore("").setScore(1);
+		objective.getScore("§6MareliGames.de").setScore(0);
+		player.setScoreboard(scoreboard);
+	}
+	
+	public void animate() {
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+			
+			@Override
+			public void run() {
+				for(Player current : Bukkit.getOnlinePlayers()) {
+					if(current.getScoreboard() == null) 
+						setup(current);
+					current.getScoreboard().getObjective(DisplaySlot.SIDEBAR).setDisplayName(currentTitle);
+					
+					if(animationState >= letters.length) {
+						currentTitle = "";
+						animationState = 0;
+					}
+					currentTitle = currentTitle + letters[animationState];
+					
+				}
+				animationState++;
+				
+			}
+		}, 0, ANIMATION_SPEED);	
+	}
+	
+	@EventHandler
+	public void handlePlayerJoin(PlayerJoinEvent event) {
+		setup(event.getPlayer());
+	}
+}
