@@ -1,0 +1,111 @@
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+
+public class ListenerPlugin extends JavaPlugin{
+	public class MeinListener implements Listener{
+		@EventHandler
+		public void onEvent(PlayerInteractEvent event) {
+			 Player spieler = event.getPlayer();
+			 
+			 if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+//				 spieler.sendMessage("test");
+				 if(event.getMaterial() == Material.SPONGE) {
+					 spieler.sendMessage("Du hast eine Lucky Block geöffnet");
+					 World welt = spieler.getWorld();
+					 Block finalBlock = welt.getBlockAt(spieler.getLocation());
+		             List<Block> blockListe = spieler.getLineOfSight((Set<Material>) null, 30);
+		                
+		             for(int i = 0; i < blockListe.size(); i++){
+		                  if(blockListe.get(i).getType() == Material.AIR){
+		                      finalBlock = blockListe.get(i);
+		                  }
+		                  else{
+		                      break;
+		                  }
+		              }
+		              Block LuckyBlock = welt.getBlockAt(finalBlock.getLocation());
+		              LuckyBlock.setType(Material.AIR);
+				        
+					 Random eventLucky = new Random();
+					 int random2 = eventLucky.nextInt(6);
+					 spieler.sendMessage("deine zahl ist " + random2);
+					 if(random2 == 0) {
+						 
+					 }else if(random2 == 1){
+						 
+					 }else if(random2 == 2){
+						 
+					 }else if(random2 == 3) {
+						 
+					 }else if(random2 == 4) {
+						 
+					 }else if(random2 == 5) {
+						 
+					 }else if(random2 == 6) {
+						 
+					 }
+				 }
+			 }
+			 
+		}
+		@EventHandler
+		public void handlePlayerJoin(PlayerJoinEvent e ) {
+			Player p = e.getPlayer();
+			
+			Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
+			Objective obj = board.registerNewObjective("abcd", "abcd");
+			obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+			obj.setDisplayName("     §6§lMARELIGAMES     ");
+			obj.getScore(" ").setScore(5);
+			obj.getScore(" ").setScore(4);
+			obj.getScore("§aHallo " + p.getName()).setScore(3);
+			obj.getScore("§aViel Spaß!").setScore(2);
+			obj.getScore(" ").setScore(1);
+			obj.getScore("§l§6Mareligames.de").setScore(0);
+			p.setScoreboard(board);
+		}
+		@EventHandler
+		public void handlePlayerJoin2(PlayerJoinEvent e2 )  {
+			Player p2 = e2.getPlayer();
+			
+			Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
+			Objective obj = board.registerNewObjective("abc", "abc");
+			obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
+		    obj.setDisplayName("§6§l HEALTH: " + p2.getHealth());
+		    p2.setScoreboard(board);
+		    p2.sendMessage("Hallo");
+/*		    Calendar c = Calendar.getInstance();
+		    int s = c.get(10) % 5 + 5;
+		    while (s > c.get(10) % 5) {}
+*/		  
+		}
+	}
+	public void onEnable() {
+		PluginManager pluginManager = this.getServer().getPluginManager();
+		MeinListener listener = new MeinListener();
+		pluginManager.registerEvents(listener, this);
+		pluginManager.registerEvents(listener, this);
+	}
+	
+	public void onDisable() {
+		
+	}
+
+}
