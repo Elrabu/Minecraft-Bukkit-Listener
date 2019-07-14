@@ -1,0 +1,21 @@
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class Main extends JavaPlugin{
+	
+	private static Main plugin;
+	
+	@Override
+	public void onEnable() {
+		plugin = this;
+		
+		PluginManager pluginmanager = Bukkit.getPluginManager();
+		pluginmanager.registerEvents(new ScoreboardAnimator(this), this);
+	}
+	
+	public static Main getPlugin(){
+		return plugin;
+	}
+
+}
