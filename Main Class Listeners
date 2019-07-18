@@ -2,6 +2,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import villager.VillagerHandler;
+
+
 public class Main extends JavaPlugin{
 	
 	private static Main plugin;
@@ -9,9 +12,16 @@ public class Main extends JavaPlugin{
 	@Override
 	public void onEnable() {
 		plugin = this;
+		VillagerHandler villagerhandler = new VillagerHandler();
+		
+		getCommand("shop").setExecutor(villagerhandler);
 		
 		PluginManager pluginmanager = Bukkit.getPluginManager();
-		pluginmanager.registerEvents(new ScoreboardAnimator(this), this); // That is the registration of the ScoreboardListener
+		pluginmanager.registerEvents(new ScoreboardAnimator(this), this);
+		pluginmanager.registerEvents(villagerhandler, this);
+		
+		
+       
 	}
 	
 	public static Main getPlugin(){
@@ -19,4 +29,3 @@ public class Main extends JavaPlugin{
 	}
 
 }
-
